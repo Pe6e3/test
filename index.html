@@ -66,13 +66,28 @@
 					</div>
 					<div class="portfolio-grid">
 						<figure class="portfolio-card">
-							<img src="./assets/portfolio/portfolio_1.jfif" alt="Портфолио: пример 1" loading="lazy" />
+							<img
+								class="portfolio-zoom"
+								src="./assets/portfolio/portfolio_1.jfif"
+								alt="Портфолио: пример 1"
+								loading="lazy"
+							/>
 						</figure>
 						<figure class="portfolio-card">
-							<img src="./assets/portfolio/portfolio_2.jfif" alt="Портфолио: пример 2" loading="lazy" />
+							<img
+								class="portfolio-zoom"
+								src="./assets/portfolio/portfolio_2.jfif"
+								alt="Портфолио: пример 2"
+								loading="lazy"
+							/>
 						</figure>
 						<figure class="portfolio-card">
-							<img src="./assets/portfolio/portfolio_3.jfif" alt="Портфолио: пример 3" loading="lazy" />
+							<img
+								class="portfolio-zoom"
+								src="./assets/portfolio/portfolio_3.jfif"
+								alt="Портфолио: пример 3"
+								loading="lazy"
+							/>
 						</figure>
 					</div>
 				</div>
@@ -204,6 +219,126 @@
 			условиями обработки персональных данных и пользовательским соглашением.
 		</p>
 	</footer>
+
+	<div class="lightbox" aria-hidden="true">
+		<div class="lightbox__backdrop" aria-hidden="true"></div>
+	</div>
+
+	<script>
+		(() => {
+			const lightbox = document.querySelector('.lightbox')
+			const backdrop = document.querySelector('.lightbox__backdrop')
+			if (!lightbox || !backdrop) return
+
+			let active = null
+			let activeRect = null
+			let activeImg = null
+			let closing = false
+
+			function lockScroll(isLocked) {
+				document.body.classList.toggle('lightbox-open', isLocked)
+			}
+
+			function getFinalRect(img) {
+				const vw = window.innerWidth
+				const vh = window.innerHeight
+				const pad = Math.min(48, Math.max(18, Math.round(Math.min(vw, vh) * 0.04)))
+				const maxW = vw - pad * 2
+				const maxH = vh - pad * 2
+
+				const naturalW = img.naturalWidth || 1600
+				const naturalH = img.naturalHeight || 900
+				const ratio = Math.min(maxW / naturalW, maxH / naturalH, 1)
+
+				const w = Math.round(naturalW * ratio)
+				const h = Math.round(naturalH * ratio)
+				const left = Math.round((vw - w) / 2)
+				const top = Math.round((vh - h) / 2)
+
+				return { left, top, width: w, height: h }
+			}
+
+			function applyRect(el, rect) {
+				el.style.left = rect.left + 'px'
+				el.style.top = rect.top + 'px'
+				el.style.width = rect.width + 'px'
+				el.style.height = rect.height + 'px'
+			}
+
+			function openFrom(imgEl) {
+				if (closing) return
+				if (active) closeTo()
+
+				active = imgEl
+				activeRect = imgEl.getBoundingClientRect()
+
+				activeImg = imgEl.cloneNode(true)
+				activeImg.removeAttribute('loading')
+				activeImg.classList.add('lightbox__img')
+				activeImg.alt = imgEl.alt || 'Изображение'
+
+				lightbox.appendChild(activeImg)
+				applyRect(activeImg, activeRect)
+
+				lightbox.classList.add('is-open')
+				lightbox.setAttribute('aria-hidden', 'false')
+				lockScroll(true)
+
+				const finalRect = getFinalRect(activeImg)
+				requestAnimationFrame(() => {
+					activeImg.classList.add('is-animating')
+					applyRect(activeImg, finalRect)
+				})
+			}
+
+			function closeTo() {
+				if (!activeImg || !activeRect || closing) return
+				closing = true
+
+				activeImg.classList.add('is-animating')
+				applyRect(activeImg, activeRect)
+
+				const finish = () => {
+					activeImg?.removeEventListener('transitionend', finish)
+					activeImg?.remove()
+					active = null
+					activeRect = null
+					activeImg = null
+					closing = false
+					lightbox.classList.remove('is-open')
+					lightbox.setAttribute('aria-hidden', 'true')
+					lockScroll(false)
+				}
+
+				activeImg.addEventListener('transitionend', finish, { once: true })
+				lightbox.classList.remove('is-open')
+			}
+
+			document.addEventListener('click', (e) => {
+				const target = e.target
+				if (!(target instanceof Element)) return
+
+				const img = target.closest('.portfolio-zoom')
+				if (img) {
+					if (active) closeTo()
+					else openFrom(img)
+				}
+			})
+
+			backdrop.addEventListener('click', () => closeTo())
+
+			document.addEventListener('keydown', (e) => {
+				if (e.key === 'Escape') closeTo()
+			})
+
+			window.addEventListener('resize', () => {
+				if (!activeImg || !active) return
+				activeRect = active.getBoundingClientRect()
+				const finalRect = getFinalRect(activeImg)
+				applyRect(activeImg, finalRect)
+			})
+		})()
+	</script>
 </body>
 
 </html>

@@ -342,6 +342,52 @@ h2 {
 	object-fit: cover;
 }
 
+.portfolio-zoom {
+	cursor: zoom-in;
+}
+
+.lightbox {
+	position: fixed;
+	inset: 0;
+	z-index: 50;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.22s ease, visibility 0.22s ease;
+}
+
+.lightbox.is-open {
+	opacity: 1;
+	visibility: visible;
+}
+
+.lightbox__backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(4, 7, 14, 0.72);
+	backdrop-filter: blur(8px);
+}
+
+.lightbox__img {
+	position: fixed;
+	z-index: 51;
+	object-fit: cover;
+	border-radius: 18px;
+	box-shadow: 0 30px 120px rgba(0, 0, 0, 0.6);
+	will-change: left, top, width, height;
+	transition: left 0.34s cubic-bezier(0.2, 0.8, 0.2, 1),
+		top 0.34s cubic-bezier(0.2, 0.8, 0.2, 1),
+		width 0.34s cubic-bezier(0.2, 0.8, 0.2, 1),
+		height 0.34s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.lightbox__img.is-animating {
+	cursor: zoom-out;
+}
+
+body.lightbox-open {
+	overflow: hidden;
+}
+
 h3 {
 	margin: 0 0 8px;
 	font-size: 1.02rem;
