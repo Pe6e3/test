@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 1024" role="img" aria-labelledby="title desc">
+	<title id="title">>@B@5B-703;CH:0</title>
+	<desc id="desc">
+		@0D8G5A:0O 703;CH:0 ?>@B@5B0 4;O ?5@A>=0;L=>9 AB@0=8FK 2 AB@>3>< AB8;5.
+	</desc>
+	<defs>
+		<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+			<stop offset="0%" stop-color="#1c2c48" />
+			<stop offset="58%" stop-color="#13223a" />
+			<stop offset="100%" stop-color="#0d1a2d" />
+		</linearGradient>
+		<radialGradient id="bokeh1" cx="0.86" cy="0.18" r="0.28">
+			<stop offset="0%" stop-color="#adc9ff" stop-opacity="0.65" />
+			<stop offset="100%" stop-color="#adc9ff" stop-opacity="0" />
+		</radialGradient>
+		<radialGradient id="bokeh2" cx="0.16" cy="0.8" r="0.24">
+			<stop offset="0%" stop-color="#b5b8ff" stop-opacity="0.46" />
+			<stop offset="100%" stop-color="#b5b8ff" stop-opacity="0" />
+		</radialGradient>
+		<linearGradient id="suit" x1="0.5" y1="0" x2="0.5" y2="1">
+			<stop offset="0%" stop-color="#0f1725" />
+			<stop offset="100%" stop-color="#080e17" />
+		</linearGradient>
+	</defs>
+
+	<rect width="768" height="1024" fill="url(#bg)" />
+	<rect width="768" height="1024" fill="url(#bokeh1)" />
+	<rect width="768" height="1024" fill="url(#bokeh2)" />
+
+	<g opacity="0.5">
+		<circle cx="656" cy="180" r="86" fill="#a9baff" />
+		<circle cx="106" cy="854" r="74" fill="#96c4ff" />
+		<circle cx="586" cy="830" r="52" fill="#8fb2ff" />
+	</g>
+
+	<ellipse cx="380" cy="420" rx="142" ry="174" fill="#d3b09e" />
+	<path d="M240 388c14-60 56-104 140-104 78 0 118 42 132 98-22-13-54-25-124-25-68 0-108 13-148 31z" fill="#2b2d34" />
+	<rect x="328" y="606" width="108" height="84" rx="32" fill="#cea48d" />
+	<path d="M170 980l58-232c16-58 68-96 128-96h52c60 0 112 38 128 96l58 232H170z" fill="url(#suit)" />
+	<path d="M344 664l40 72 40-72h-80z" fill="#f6f7fb" />
+	<path d="M384 736l-28 186h56l-28-186z" fill="#1f2e4a" />
+	<rect x="286" y="650" width="196" height="24" rx="12" fill="#f9fbff" />
+	<circle cx="334" cy="420" r="10" fill="#2e2e2e" />
+	<circle cx="430" cy="420" r="10" fill="#2e2e2e" />
+	<path d="M344 494c20 24 56 24 76 0" fill="none" stroke="#8d6551" stroke-width="6" stroke-linecap="round" />
+
+	<rect x="48" y="930" width="672" height="54" rx="14" fill="rgba(6,10,18,0.45)" />
+	<text
+		x="384"
+		y="964"
+		fill="#dbe5fb"
+		font-size="24"
+		font-family="Inter, Arial, sans-serif"
+		text-anchor="middle"
+		letter-spacing="2"
+	>
+		PHOTO PLACEHOLDER
+	</text>
+</svg>
