@@ -32,12 +32,13 @@ body {
 	line-height: 1.6;
 }
 
+/* Fallback до JS: большой запас, чтобы не мигал край; точные top/height задаёт скрипт параллакса */
 .page-bg {
 	position: fixed;
 	left: 0;
 	right: 0;
-	top: -14vh;
-	height: 128vh;
+	top: -120vh;
+	height: 340vh;
 	pointer-events: none;
 	z-index: 0;
 	background:
@@ -54,7 +55,10 @@ body {
 @media (prefers-reduced-motion: reduce) {
 	.page-bg {
 		top: 0;
-		height: 100%;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		height: auto;
 		transform: none !important;
 		will-change: auto;
 	}

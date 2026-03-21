@@ -229,17 +229,44 @@
 			const bg = document.querySelector('.page-bg')
 			if (!bg) return
 			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-			let rafId = 0
 			const factor = 0.16
+			let rafId = 0
+			let bleedRaf = 0
+
+			function syncParallaxBleed() {
+				const vh = window.innerHeight
+				const maxScroll = Math.max(0, document.documentElement.scrollHeight - vh)
+				const travel = maxScroll * factor
+				const margin = Math.round(vh * 0.35)
+				const bleed = Math.ceil(travel + margin)
+				bg.style.top = -bleed + 'px'
+				bg.style.height = vh + 2 * bleed + 'px'
+			}
+
+			function scheduleBleed() {
+				if (bleedRaf) return
+				bleedRaf = requestAnimationFrame(() => {
+					bleedRaf = 0
+					syncParallaxBleed()
+				})
+			}
+
 			function applyParallax() {
 				rafId = 0
 				const y = window.scrollY || document.documentElement.scrollTop
 				bg.style.transform = 'translate3d(0, ' + y * factor + 'px, 0)'
 			}
+
 			function onScroll() {
 				if (rafId) return
 				rafId = requestAnimationFrame(applyParallax)
 			}
+
+			syncParallaxBleed()
+			window.addEventListener('resize', scheduleBleed, { passive: true })
+			window.addEventListener('load', scheduleBleed)
+			if (document.readyState === 'complete') scheduleBleed()
+
 			window.addEventListener('scroll', onScroll, { passive: true })
 			applyParallax()
 		})()
