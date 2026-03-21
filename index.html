@@ -226,6 +226,27 @@
 
 	<script>
 		(() => {
+			const bg = document.querySelector('.page-bg')
+			if (!bg) return
+			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+			let rafId = 0
+			const factor = 0.16
+			function applyParallax() {
+				rafId = 0
+				const y = window.scrollY || document.documentElement.scrollTop
+				bg.style.transform = 'translate3d(0, ' + y * factor + 'px, 0)'
+			}
+			function onScroll() {
+				if (rafId) return
+				rafId = requestAnimationFrame(applyParallax)
+			}
+			window.addEventListener('scroll', onScroll, { passive: true })
+			applyParallax()
+		})()
+	</script>
+
+	<script>
+		(() => {
 			const lightbox = document.querySelector('.lightbox')
 			const backdrop = document.querySelector('.lightbox__backdrop')
 			if (!lightbox || !backdrop) return
