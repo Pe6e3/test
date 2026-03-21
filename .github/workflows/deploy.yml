@@ -1,0 +1,33 @@
+# Автодеплой: при push в main GitHub по SSH заходит на сервер и делает git pull.
+#
+# Настройка в репозитории GitHub → Settings → Secrets and variables → Actions:
+#   DEPLOY_HOST   — IP или домен сервера (например vmi2656319.contaboserver.net)
+#   DEPLOY_USER   — пользователь SSH (например root)
+#   DEPLOY_SSH_KEY — приватный ключ (весь PEM), паре которого соответствует
+#                    публичный ключ в ~/.ssh/authorized_keys на сервере
+#
+# На сервере в /var/www/lawyer-page должен быть клон с remote, с которого pull
+# проходит без интерактива (SSH deploy key к репо или HTTPS с credential).
+
+name: Deploy static site
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull on server
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script_stop: true
+          script: |
+            set -e
+            cd /var/www/lawyer-page
+            git fetch origin main
+            git reset --hard origin/main
